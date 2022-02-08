@@ -1,0 +1,20 @@
+{
+  "name": "classroom-app",
+  "version": "1.0.0",
+  "description": "google classroom clone ",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Hüseyin Ensari < hsynensari@gmail.com >",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
