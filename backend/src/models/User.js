@@ -32,6 +32,9 @@ const UserSchema = new Schema({
     enum: ["student", "teacher"],
     default: "student",
   },
+  refreshToken: {
+    type: String,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
