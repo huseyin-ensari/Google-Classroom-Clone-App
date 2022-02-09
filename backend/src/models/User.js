@@ -26,12 +26,11 @@ const UserSchema = new Schema({
   password: {
     type: String,
     minlength: 6,
-    select: false,
   },
   role: {
     type: String,
-    enum: ["students", "teacher"],
-    default: "students",
+    enum: ["student", "teacher"],
+    default: "student",
   },
 });
 

@@ -13,24 +13,8 @@ const newUser = () => {
       .isLength({ min: 2 })
       .exists()
       .trim(),
-    body("role", "Role is required").custom((value) => {
-      if (value === "student" || value === "teacher") {
-        return true;
-      }
-      return new CustomError("Please provide a correct role", 400);
-    }),
-    body("email", "Email is required")
-      .isEmail()
-      .exists()
-      .trim()
-      .custom((value) => {
-        User.findOne({ email: value }).then((tempUser) => {
-          if (tempUser) {
-            throw new CustomError("Email already exist", 400);
-          }
-        });
-        return true;
-      }),
+    body("role", "Role is required").exists(),
+    body("email", "Email is required").isEmail().exists().trim(),
     body("password", "Password is require")
       .isLength({ min: 6 })
       .withMessage("Password must be 6 character")
