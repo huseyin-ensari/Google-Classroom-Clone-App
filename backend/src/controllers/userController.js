@@ -44,8 +44,8 @@ const login = asyncHandler(async (req, res, next) => {
   const valid = await compare(password, user.password);
   if (!valid) return next(new CustomError("Password not correct", 400));
 
-  const accessToken = createAccessToken(user._id);
-  const refreshToken = createRefreshToken(user._id);
+  const accessToken = createAccessToken(user);
+  const refreshToken = createRefreshToken(user);
 
   user.refreshToken = refreshToken;
   user.save();
@@ -71,8 +71,8 @@ const refreshToken = asyncHandler(async (req, res, next) => {
   if (!user) return res.json({ accessToken: "" });
   if (user.refreshToken !== token) return res.json({ accessToken: "" });
 
-  const accessToken = createAccessToken(user._id);
-  const refreshToken = createRefreshToken(user._id);
+  const accessToken = createAccessToken(user);
+  const refreshToken = createRefreshToken(user);
   user.refreshToken = refreshToken;
   user.save();
   sendRefreshToken(res, refreshToken);
