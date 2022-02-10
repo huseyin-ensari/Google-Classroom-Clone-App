@@ -22,6 +22,19 @@ const newUser = () => {
   ];
 };
 
+const newClassroom = () => {
+  return [
+    body("title", "Title is require").exists().isLength({ min: 4 }).trim(),
+    body("subtitle").trim(),
+  ];
+};
+
+/*
+title
+subtitle
+*/
+
 module.exports = {
   newUser,
+  newClassroom,
 };
