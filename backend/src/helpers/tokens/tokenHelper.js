@@ -7,14 +7,18 @@ const {
   REFRESH_TOKEN_EXPIRE,
 } = process.env;
 
-const createAccessToken = (userID) => {
-  return sign({ userID }, SECRET_ACCESS_TOKEN, {
+const createAccessToken = (user) => {
+  const { _id, email, role } = user;
+  payload = { _id, email, role };
+  return sign(payload, SECRET_ACCESS_TOKEN, {
     expiresIn: ACCESS_TOKEN_EXPIRE,
   });
 };
 
-const createRefreshToken = (userID) => {
-  return sign({ userID }, SECRET_REFRESH_TOKEN, {
+const createRefreshToken = (user) => {
+  const { _id, email, role } = user;
+  payload = { _id, email, role };
+  return sign(payload, SECRET_REFRESH_TOKEN, {
     expiresIn: REFRESH_TOKEN_EXPIRE,
   });
 };
