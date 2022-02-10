@@ -7,5 +7,6 @@ const inputValidator = require("../middlewares/inputValidations/inputValidations
 router.post("/register", inputValidator.newUser(), userController.register);
 router.post("/login", userController.login);
 router.get("/logout", userController.logout);
+router.post("/refresh-token", userController.refreshToken);
 
 module.exports = router;

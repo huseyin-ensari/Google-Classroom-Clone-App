@@ -53,7 +53,35 @@ const login = asyncHandler(async (req, res, next) => {
   sendAccessToken(req, res, accessToken);
 });
 
+const logout = asyncHandler(async (req, res, next) => {
+  res.clearCookie("refreshToken", { path: "/refresh-token" });
+
+  return res.status(200).json({
+    success: true,
+  });
+});
+
+const refreshToken = asyncHandler(async (req, res, next) => {
+  const token = req.cookies.refreshToken;
+  if (!token) return res.json({ accessToken: "" });
+  let payload = verify(token, process.env.SECRET_REFRESH_TOKEN);
+  if (!payload) return res.json({ accessToken: "" });
+
+  let user = await User.findById(payload.userID);
+  if (!user) return res.json({ accessToken: "" });
+  if (user.refreshToken !== token) return res.json({ accessToken: "" });
+
+  const accessToken = createAccessToken(user._id);
+  const refreshToken = createRefreshToken(user._id);
+  user.refreshToken = refreshToken;
+  user.save();
+  sendRefreshToken(res, refreshToken);
+  return res.status(200).json({ accessToken });
+});
+
 module.exports = {
   register,
   login,
+  logout,
+  refreshToken,
 };
