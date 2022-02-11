@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const classroomController = require("../controllers/classroomController");
 const inputValidator = require("../middlewares/inputValidations/inputValidations");
-const { isAuth, isTeacher } = require("../middlewares/auth/auth");
+const { isAuth, isTeacher, isStudent } = require("../middlewares/auth/auth");
+
 // /api/classroom
 
 router.post(
@@ -10,6 +11,13 @@ router.post(
   isAuth,
   isTeacher,
   classroomController.createClassroom
+);
+
+router.post(
+  "/join/:accesscode",
+  isAuth,
+  isStudent,
+  classroomController.joinClassroom
 );
 
 module.exports = router;
