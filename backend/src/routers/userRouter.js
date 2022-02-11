@@ -8,5 +8,6 @@ router.post("/register", inputValidator.newUser(), userController.register);
 router.post("/login", userController.login);
 router.get("/logout", userController.logout);
 router.post("/refresh-token", userController.refreshToken);
+router.patch("/:userID", userController.changeInformation);
 
 module.exports = router;

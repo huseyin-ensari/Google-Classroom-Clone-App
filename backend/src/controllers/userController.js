@@ -79,9 +79,23 @@ const refreshToken = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ accessToken });
 });
 
+const changeInformation = asyncHandler(async (req, res, next) => {
+  const { userID } = req.params;
+  const { name, lastname, email } = req.body;
+  const user = await User.findByIdAndUpdate(
+    userID,
+    { email, name, lastname },
+    { new: true }
+  );
+  if (!user) return next(new CustomError("User not found", 400));
+
+  return res.status(200).json({ data: user });
+});
+
 module.exports = {
   register,
   login,
   logout,
   refreshToken,
+  changeInformation,
 };
