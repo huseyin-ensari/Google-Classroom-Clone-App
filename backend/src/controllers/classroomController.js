@@ -27,7 +27,18 @@ const joinClassroom = asyncHandler(async (req, res, next) => {
   });
 });
 
+const getClassroomInfo = asyncHandler(async (req, res, next) => {
+  const { classroomID } = req.params;
+  const classroom = await Classroom.findById(classroomID);
+  if (!classroom) return next(new CustomError("Classroom not found", 400));
+
+  return res.status(200).json({
+    data: classroom,
+  });
+});
+
 module.exports = {
   createClassroom,
   joinClassroom,
+  getClassroomInfo,
 };

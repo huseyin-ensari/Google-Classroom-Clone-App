@@ -20,4 +20,6 @@ router.post(
   classroomController.joinClassroom
 );
 
+router.get("/:classroomID", isAuth, classroomController.getClassroomInfo);
+
 module.exports = router;
