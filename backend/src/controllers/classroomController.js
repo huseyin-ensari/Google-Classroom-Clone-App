@@ -44,11 +44,29 @@ const removeStudent = asyncHandler(async (req, res, next) => {
   const classroom = await Classroom.findById(classroomID);
   if (!classroom) return next(new CustomError("Classroom not found", 400));
   if (classroom.teacher.toString() !== req.user.id) {
-    return next(new CustomError("You are not authorized ---"));
+    return next(new CustomError("You are not authorized", 400));
   }
 
   classroom.students.splice(classroom.students.indexOf(studentID), 1);
   classroom.save();
+  return res.status(200).json({ success: true });
+});
+
+const changeInformation = asyncHandler(async (req, res, next) => {
+  const { classroomID } = req.params;
+  const { title, subtitle } = req.body;
+  const classroom = await Classroom.findByIdAndUpdate(
+    classroomID,
+    {
+      title,
+      subtitle,
+    },
+    { new: true }
+  );
+  if (!classroom) return next(new CustomError("Classroom not found", 400));
+  if (classroom.teacher.toString() !== req.user.id) {
+    return next(new CustomError("You are not authorized", 400));
+  }
   return res.status(200).json({ success: true });
 });
 
@@ -57,4 +75,5 @@ module.exports = {
   joinClassroom,
   getClassroomInfo,
   removeStudent,
+  changeInformation,
 };

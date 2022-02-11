@@ -28,4 +28,11 @@ router.patch(
   classroomController.removeStudent
 );
 
+router.patch(
+  "/:classroomID",
+  isAuth,
+  isTeacher,
+  classroomController.changeInformation
+);
+
 module.exports = router;
