@@ -82,6 +82,9 @@ const refreshToken = asyncHandler(async (req, res, next) => {
 const changeInformation = asyncHandler(async (req, res, next) => {
   const { userID } = req.params;
   const { name, lastname, email } = req.body;
+  if (req.user.id !== userID) {
+    return next(new CustomError("You are not authorized"));
+  }
   const user = await User.findByIdAndUpdate(
     userID,
     { email, name, lastname },
