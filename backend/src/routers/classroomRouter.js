@@ -21,5 +21,11 @@ router.post(
 );
 
 router.get("/:classroomID", isAuth, classroomController.getClassroomInfo);
+router.patch(
+  "/:classroomID/:studentID",
+  isAuth,
+  isTeacher,
+  classroomController.removeStudent
+);
 
 module.exports = router;
