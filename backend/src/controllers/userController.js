@@ -95,10 +95,18 @@ const changeInformation = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ data: user });
 });
 
+const getUserInformation = asyncHandler(async (req, res, next) => {
+  const { userID } = req.params;
+  const user = await User.findById(userID);
+  if (!user) return next(new CustomError("User not found", 400));
+  return res.status(200).json({ data: user });
+});
+
 module.exports = {
   register,
   login,
   logout,
   refreshToken,
   changeInformation,
+  getUserInformation,
 };
