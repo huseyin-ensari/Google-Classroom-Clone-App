@@ -15,4 +15,11 @@ router.post(
 
 router.delete("/:classroomID/:postID", isAuth, postContoller.deletePost);
 
+router.patch(
+  "/:postID",
+  isAuth,
+  uploadFile.single("post_file"),
+  postContoller.updatePost
+);
+
 module.exports = router;
