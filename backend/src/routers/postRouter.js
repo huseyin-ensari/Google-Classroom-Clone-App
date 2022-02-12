@@ -13,4 +13,6 @@ router.post(
   postContoller.createPost
 );
 
+router.delete("/:classroomID/:postID", isAuth, postContoller.deletePost);
+
 module.exports = router;

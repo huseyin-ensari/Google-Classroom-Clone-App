@@ -17,6 +17,23 @@ const createPost = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ success: true, data: newPost });
 });
 
+const deletePost = asyncHandler(async (req, res, next) => {
+  const { classroomID, postID } = req.params;
+  const classroom = await Classroom.findById(classroomID);
+  const post = await Post.findById(postID);
+  if (!classroom && !post) {
+    return next(new CustomError("Classroom or post not found", 400));
+  }
+  if (req.user.id !== post.author.toString()) {
+    return next(new CustomError("You are not authorized", 400));
+  }
+  classroom.posts.splice(classroom.posts.indexOf(postID), 1);
+  await classroom.save();
+  await post.remove();
+  return res.status(200).json({ success: true });
+});
+
 module.exports = {
   createPost,
+  deletePost,
 };
