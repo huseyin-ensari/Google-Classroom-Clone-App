@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const inputValidator = require("../middlewares/inputValidations/inputValidations");
 const { isAuth } = require("../middlewares/auth/auth");
-const postContoller = require("../controllers/postController");
+const postController = require("../controllers/postController");
 const uploadFile = require("../middlewares/assets/uploadFile");
 const {
   classroomCheck,
@@ -15,7 +15,7 @@ router.post(
   isAuth,
   uploadFile.single("post_file"),
   classroomCheck,
-  postContoller.createPost
+  postController.createPost
 );
 
 router.delete(
@@ -23,7 +23,7 @@ router.delete(
   isAuth,
   classroomCheck,
   postCheck,
-  postContoller.deletePost
+  postController.deletePost
 );
 
 router.patch(
@@ -31,7 +31,7 @@ router.patch(
   isAuth,
   uploadFile.single("post_file"),
   postCheck,
-  postContoller.updatePost
+  postController.updatePost
 );
 
 module.exports = router;
