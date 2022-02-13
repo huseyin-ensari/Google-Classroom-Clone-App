@@ -47,7 +47,7 @@ const getHomework = asyncHandler(async (req, res, next) => {
 
 const updateHomework = asyncHandler(async (req, res, next) => {
   const homework = req.homework;
-  const { title, content, endTime } = req.body;
+  const { title, content, endTime, score } = req.body;
   title ? (homework.title = title) : null;
   content ? (homework.title = content) : null;
   endTime ? (homework.title = endTime) : null;
@@ -55,9 +55,24 @@ const updateHomework = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ success: true, data: homework });
 });
 
+const rateProject = asyncHandler(async (req, res, next) => {
+  const { projectID } = req.params;
+  const { score } = req.body;
+  if (score < 0 && score > 100) {
+    return next(new CustomError("Score must be between 0 and 100", 400));
+  }
+
+  const project = await Project.findById(projectID);
+  if (!project) return next(new CustomError("Project not found", 400));
+  project.score = score;
+  project.save();
+  return res.status(200).json({ success: true, data: project });
+});
+
 module.exports = {
   addHomework,
   submitHomework,
   getHomework,
   updateHomework,
+  rateProject,
 };

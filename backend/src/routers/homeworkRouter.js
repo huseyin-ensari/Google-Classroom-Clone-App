@@ -40,4 +40,11 @@ router.patch(
   homeworkController.updateHomework
 );
 
+router.patch(
+  "/project/:projectID",
+  isAuth,
+  isTeacher,
+  homeworkController.rateProject
+);
+
 module.exports = router;
