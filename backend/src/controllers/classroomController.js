@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const CustomError = require("../helpers/errors/CustomError");
 const Classroom = require("../models/Classroom");
 const User = require("../models/User");
+const Post = require("../models/Post");
 
 const createClassroom = asyncHandler(async (req, res, next) => {
   const classroom = Classroom({ ...req.body, teacher: req.user.id });
@@ -70,10 +71,27 @@ const changeInformation = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ success: true });
 });
 
+const deleteClassroom = asyncHandler(async (req, res, next) => {
+  const { classroomID } = req.params;
+  const classroom = await Classroom.findById(classroomID);
+  if (!classroom) return next(new CustomError("Classroom not found", 400));
+  if (classroom.teacher.toString() !== req.user.id.toString()) {
+    return next(new CustomError("You are not authorized", 400));
+  }
+
+  for (let i = 0; i < classroom.posts.length; i++) {
+    await Post.findByIdAndDelete(classroom.posts[i]);
+  }
+
+  classroom.remove();
+  return res.status(200).json({ success: true });
+});
+
 module.exports = {
   createClassroom,
   joinClassroom,
   getClassroomInfo,
   removeStudent,
   changeInformation,
+  deleteClassroom,
 };

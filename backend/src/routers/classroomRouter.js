@@ -21,6 +21,7 @@ router.post(
 );
 
 router.get("/:classroomID", isAuth, classroomController.getClassroomInfo);
+
 router.patch(
   "/:classroomID/:studentID",
   isAuth,
@@ -33,6 +34,13 @@ router.patch(
   isAuth,
   isTeacher,
   classroomController.changeInformation
+);
+
+router.delete(
+  "/:classroomID",
+  isAuth,
+  isTeacher,
+  classroomController.deleteClassroom
 );
 
 module.exports = router;
