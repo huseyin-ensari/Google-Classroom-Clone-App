@@ -11,6 +11,7 @@ ProjectSchema = new Schema({
     default: Date.now,
   },
   file: String,
+  score: Number,
 });
 
 const Project = mongoose.model("Project", ProjectSchema);
