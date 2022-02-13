@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
+const Classroom = require("../models/Classroom");
 const CustomError = require("../helpers/errors/CustomError");
 const { validationResult } = require("express-validator");
 const { hash, compare } = require("bcrypt");
@@ -50,7 +51,7 @@ const login = asyncHandler(async (req, res, next) => {
   user.refreshToken = refreshToken;
   user.save();
   sendRefreshToken(res, refreshToken);
-  sendAccessToken(req, res, accessToken);
+  sendAccessToken(req, res, accessToken, user);
 });
 
 const logout = asyncHandler(async (req, res, next) => {
@@ -99,7 +100,8 @@ const getUserInformation = asyncHandler(async (req, res, next) => {
   const { userID } = req.params;
   const user = await User.findById(userID);
   if (!user) return next(new CustomError("User not found", 400));
-  return res.status(200).json({ data: user });
+  const classrooms = await Classroom.find({ students: user.id });
+  return res.status(200).json({ data: user, classrooms });
 });
 
 module.exports = {

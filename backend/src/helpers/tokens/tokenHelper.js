@@ -23,10 +23,14 @@ const createRefreshToken = (user) => {
   });
 };
 
-const sendAccessToken = (req, res, accessToken) => {
+const sendAccessToken = (req, res, accessToken, user) => {
+  const { email, name, lastname, role } = user;
   res.send({
     accessToken,
-    email: req.body.email,
+    email,
+    name,
+    lastname,
+    role,
   });
 };
 
