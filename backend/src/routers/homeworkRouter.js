@@ -1,0 +1,36 @@
+const router = require("express").Router();
+const homeworkController = require("../controllers/homeworkController");
+const { isAuth, isTeacher, isStudent } = require("../middlewares/auth/auth");
+const {
+  classroomCheck,
+  homeworkCheck,
+} = require("../middlewares/database/checkExist");
+const uploadFile = require("../middlewares/assets/uploadFile");
+
+// /api/homeworks
+
+router.post(
+  "/:classroomID",
+  isAuth,
+  isTeacher,
+  classroomCheck,
+  homeworkController.addHomework
+);
+
+router.post(
+  "/submit/:homeworkID",
+  isAuth,
+  isStudent,
+  homeworkCheck,
+  uploadFile.single("homework"),
+  homeworkController.submitHomework
+);
+
+router.get(
+  "/:homeworkID",
+  isAuth,
+  homeworkCheck,
+  homeworkController.getHomework
+);
+
+module.exports = router;
