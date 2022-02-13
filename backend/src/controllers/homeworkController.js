@@ -45,8 +45,19 @@ const getHomework = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ success: true, homework });
 });
 
+const updateHomework = asyncHandler(async (req, res, next) => {
+  const homework = req.homework;
+  const { title, content, endTime } = req.body;
+  title ? (homework.title = title) : null;
+  content ? (homework.title = content) : null;
+  endTime ? (homework.title = endTime) : null;
+  homework.save();
+  return res.status(200).json({ success: true, data: homework });
+});
+
 module.exports = {
   addHomework,
   submitHomework,
   getHomework,
+  updateHomework,
 };

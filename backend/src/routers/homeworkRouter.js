@@ -33,4 +33,11 @@ router.get(
   homeworkController.getHomework
 );
 
+router.patch(
+  "/:homeworkID",
+  isAuth,
+  homeworkCheck,
+  homeworkController.updateHomework
+);
+
 module.exports = router;
