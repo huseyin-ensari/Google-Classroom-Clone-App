@@ -29,6 +29,12 @@ const ClassroomSchema = new Schema({
       ref: "Post",
     },
   ],
+  homeworks: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Homework",
+    },
+  ],
 });
 
 ClassroomSchema.pre("save", function (next) {
