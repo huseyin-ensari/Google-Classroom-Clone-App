@@ -18,6 +18,12 @@ HomeworkSchema = new Schema({
       ref: "Project",
     },
   ],
+  appointedStudents: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 const Homework = mongoose.model("Homework", HomeworkSchema);

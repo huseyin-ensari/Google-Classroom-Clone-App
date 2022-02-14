@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Homework = require("../models/Homework");
+const Classroom = require("../models/Classroom");
 const Project = require("../models/Projects");
 const CustomError = require("../helpers/errors/CustomError");
 
@@ -11,6 +12,7 @@ const addHomework = asyncHandler(async (req, res, next) => {
     content,
     endTime,
     teacher: req.user.id,
+    appointedStudents: classroom.students,
   });
   homework.save();
   await classroom.homeworks.push(homework._id);
@@ -20,7 +22,6 @@ const addHomework = asyncHandler(async (req, res, next) => {
 
 const submitHomework = asyncHandler(async (req, res, next) => {
   const homework = req.homework;
-
   const project = await Project({ user: req.user.id, file: req.file.filename });
   if (project.createdAt > homework.endTime) {
     return next(
@@ -30,6 +31,11 @@ const submitHomework = asyncHandler(async (req, res, next) => {
 
   await project.save();
 
+  await homework.appointedStudents.splice(
+    homework.appointedStudents.indexOf(req.user.id),
+    1
+  );
+
   await homework.submitters.push(project._id);
   homework.save();
   return res.status(200).json({ success: true, data: homework });
@@ -37,11 +43,16 @@ const submitHomework = asyncHandler(async (req, res, next) => {
 
 const getHomework = asyncHandler(async (req, res, next) => {
   const { homeworkID } = req.params;
-  const homework = await Homework.findById(homeworkID).populate({
-    path: "submitters",
-    // populate: { path: "user", select: "-password" },
-    populate: { path: "user", select: "name lastname" },
-  });
+  const homework = await Homework.findById(homeworkID)
+    .populate({
+      path: "submitters",
+      // populate: { path: "user", select: "-password" },
+      populate: { path: "user", select: "name lastname" },
+    })
+    .populate({
+      path: "appointedStudents",
+      select: "name lastname",
+    });
   return res.status(200).json({ success: true, homework });
 });
 
