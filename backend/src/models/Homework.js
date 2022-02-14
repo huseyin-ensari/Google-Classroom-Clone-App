@@ -24,6 +24,7 @@ HomeworkSchema = new Schema({
       ref: "User",
     },
   ],
+  scoreTable: String,
 });
 
 const Homework = mongoose.model("Homework", HomeworkSchema);
