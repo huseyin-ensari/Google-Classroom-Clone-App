@@ -47,4 +47,6 @@ router.patch(
   homeworkController.rateProject
 );
 
+router.get("/score/:classroomID/:homeworkID", homeworkController.exportScores);
+
 module.exports = router;

@@ -3,6 +3,7 @@ const Homework = require("../models/Homework");
 const Classroom = require("../models/Classroom");
 const Project = require("../models/Projects");
 const CustomError = require("../helpers/errors/CustomError");
+const excelCreater = require("../helpers/excel/excelCreater");
 
 const addHomework = asyncHandler(async (req, res, next) => {
   const { title, content, endTime } = req.body;
@@ -80,10 +81,47 @@ const rateProject = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ success: true, data: project });
 });
 
+const exportScores = asyncHandler(async (req, res, next) => {
+  const { classroomID, homeworkID } = req.params;
+  const classroom = await Classroom.findById(classroomID);
+  const homework = await Homework.findById(homeworkID)
+    .populate({
+      path: "submitters",
+      populate: { path: "user", select: "name lastname" },
+    })
+    .populate({
+      path: "appointedStudents",
+      select: "name lastname",
+    });
+
+  let projects = [];
+  homework.submitters.forEach((project) => {
+    let { user, score } = project;
+    let data = {};
+    data.name = user.name;
+    data.lastname = user.lastname;
+    data.score = score;
+    projects.push(data);
+  });
+
+  homework.appointedStudents.forEach((student) => {
+    let data = {};
+    data.name = student.name;
+    data.lastname = student.lastname;
+    data.score = 0;
+    projects.push(data);
+  });
+
+  homework.scoreTable = await excelCreater(projects, classroom.accessCode);
+  homework.save();
+  return res.send(homework);
+});
+
 module.exports = {
   addHomework,
   submitHomework,
   getHomework,
   updateHomework,
   rateProject,
+  exportScores,
 };
