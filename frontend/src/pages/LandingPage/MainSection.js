@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import { mainSvg } from "./assets";
 
 const MainSection = () => {
@@ -18,7 +19,9 @@ const MainSection = () => {
               easy-to-use and secure tool, instructors manage, measure and
               enrich their learning experience.
             </p>
-            <Button>Join Us</Button>
+            <LinkContainer to="/register">
+              <Button>Join Us</Button>
+            </LinkContainer>
           </Col>
           <Col>
             <Image fluid src={mainSvg} alt="Online Education | Classroom App" />

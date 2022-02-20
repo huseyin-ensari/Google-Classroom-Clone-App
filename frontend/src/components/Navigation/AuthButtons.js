@@ -1,11 +1,16 @@
 import React from "react";
 import { Stack, Button } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 const AuthButtons = () => {
   return (
     <Stack className="ms-auto" direction="horizontal" gap={2}>
-      <Button variant="secondary">Login</Button>
-      <Button variant="outline-secondary">Register</Button>
+      <LinkContainer to="/login">
+        <Button variant="secondary">Login</Button>
+      </LinkContainer>
+      <LinkContainer to="/register">
+        <Button variant="outline-secondary">Register</Button>
+      </LinkContainer>
     </Stack>
   );
 };
