@@ -1,4 +1,3 @@
-import "./App.css";
 import { Navigation } from "./components";
 import { Routes, Route } from "react-router-dom";
 import { LandingPage, LoginPage, RegisterPage } from "./pages/index";
