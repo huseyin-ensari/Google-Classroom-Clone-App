@@ -6,8 +6,8 @@ const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoggin, setIsLoggin] = useState(false);
   const login = (response) => {
+    setUser(response.data);
     setIsLoggin(true);
-    setUser(response.data.user);
   };
 
   const values = {

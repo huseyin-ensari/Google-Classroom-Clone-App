@@ -9,7 +9,7 @@ import {
   Alert,
   ToggleButtonGroup,
 } from "react-bootstrap";
-import { register } from "../../api/authApi";
+import { fetchRegister } from "../../api/authApi";
 import { registerValidation } from "../../helpers/inputValidation.js";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ const RegisterPage = () => {
     validationSchema: registerValidation,
     onSubmit: async (values, bag) => {
       try {
-        await register(values);
+        await fetchRegister(values);
         navigate("/login");
       } catch (err) {
         bag.setErrors({ general: err.response.data.message });
