@@ -28,7 +28,7 @@ const RegisterPage = () => {
     validationSchema: registerValidation,
     onSubmit: async (values, bag) => {
       try {
-        const response = await register(values);
+        await register(values);
         navigate("/login");
       } catch (err) {
         bag.setErrors({ general: err.response.data.message });
