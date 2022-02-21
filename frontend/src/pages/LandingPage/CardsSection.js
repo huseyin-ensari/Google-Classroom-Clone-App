@@ -11,7 +11,7 @@ import { Container, Row } from "react-bootstrap";
 const CardsSection = () => {
   return (
     <Container className="p-5">
-      <Row className="justify-content-between">
+      <Row className="justify-content-between g-4" xs={2} md={3} sm={2}>
         <MyCard
           img={lectureNotes}
           title="Share Lecture Notes"

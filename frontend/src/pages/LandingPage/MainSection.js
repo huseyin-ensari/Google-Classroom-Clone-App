@@ -23,7 +23,7 @@ const MainSection = () => {
               <Button>Join Us</Button>
             </LinkContainer>
           </Col>
-          <Col>
+          <Col className="d-none d-md-block">
             <Image fluid src={mainSvg} alt="Online Education | Classroom App" />
           </Col>
         </Row>
