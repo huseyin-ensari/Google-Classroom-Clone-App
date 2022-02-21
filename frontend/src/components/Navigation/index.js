@@ -6,7 +6,7 @@ import AuthButtons from "./AuthButtons";
 import ProfileButton from "./ProfileButton";
 
 const Navigation = () => {
-  const { isLoggin, user } = useContext(AuthContext);
+  const { isLoggin } = useContext(AuthContext);
 
   return (
     <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
@@ -18,10 +18,7 @@ const Navigation = () => {
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          {!isLoggin && <AuthButtons />}
-          {isLoggin && (
-            <ProfileButton name={user.name} lastname={user.lastname} />
-          )}
+          {!isLoggin ? <AuthButtons /> : <ProfileButton />}
         </Navbar.Collapse>
       </Container>
     </Navbar>
