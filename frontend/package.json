@@ -9,6 +9,7 @@
     "axios": "^0.26.0",
     "dotenv": "^16.0.0",
     "formik": "^2.2.9",
+    "jwt-decode": "^3.1.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.2",
     "react-dom": "^17.0.2",
