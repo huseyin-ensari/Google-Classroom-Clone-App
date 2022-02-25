@@ -105,16 +105,18 @@ const changeInformation = asyncHandler(async (req, res, next) => {
 });
 
 const getUserInformation = asyncHandler(async (req, res, next) => {
-  const { userID } = req.params;
-  const user = await User.findById(userID).select("-password");
+  const user = await User.findById(req.user.id).select("-password");
   if (!user) return next(new CustomError("User not found", 400));
-  const classrooms = await Classroom.find({ students: user.id })
+  const classrooms = await Classroom.find({
+    students: user.id,
+    teacher: user.id,
+  })
     .select("title subtitle teacher")
     .populate({
       path: "teacher",
       select: "name lastname ",
     });
-  return res.status(200).json({ data: user, classrooms });
+  return res.status(200).json({ user, classrooms });
 });
 
 module.exports = {
