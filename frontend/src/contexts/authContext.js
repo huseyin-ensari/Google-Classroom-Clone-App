@@ -36,8 +36,8 @@ const AuthContextProvider = ({ children }) => {
     localStorage.removeItem("access-token");
     localStorage.removeItem("refresh-token");
     setIsLoggin(false);
-    setUser(null);
     await fetchLogout(user._id);
+    setUser(null);
   };
 
   const login = (response) => {
