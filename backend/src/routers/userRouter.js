@@ -7,8 +7,8 @@ const { isAuth } = require("../middlewares/auth/auth");
 
 router.post("/register", inputValidator.newUser(), userController.register);
 router.post("/login", userController.login);
-router.get("/logout", userController.logout);
-router.post("/refresh-token", userController.refreshToken);
+router.get("/logout/:userID", userController.logout);
+router.post("/refreshtoken", userController.refreshToken);
 router.patch("/:userID", isAuth, userController.changeInformation);
 router.get("/:userID", userController.getUserInformation);
 
