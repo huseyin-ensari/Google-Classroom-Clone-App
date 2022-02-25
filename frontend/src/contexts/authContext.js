@@ -38,6 +38,7 @@ const AuthContextProvider = ({ children }) => {
     user,
     isLoggin,
     login,
+    classrooms,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
