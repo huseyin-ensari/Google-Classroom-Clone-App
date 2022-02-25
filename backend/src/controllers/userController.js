@@ -109,7 +109,6 @@ const getUserInformation = asyncHandler(async (req, res, next) => {
   if (!user) return next(new CustomError("User not found", 400));
   const classrooms = await Classroom.find({
     students: user.id,
-    teacher: user.id,
   })
     .select("title subtitle teacher")
     .populate({
