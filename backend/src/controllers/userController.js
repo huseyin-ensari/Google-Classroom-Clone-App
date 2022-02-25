@@ -8,9 +8,10 @@ const { verify } = require("jsonwebtoken");
 const {
   createAccessToken,
   createRefreshToken,
-  sendRefreshToken,
-  sendAccessToken,
+  saveRefreshToken,
+  deleteRefreshToken,
 } = require("../helpers/tokens/tokenHelper");
+const RefreshToken = require("../models/RefreshToken");
 
 const register = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
@@ -48,36 +49,43 @@ const login = asyncHandler(async (req, res, next) => {
   const accessToken = createAccessToken(user);
   const refreshToken = createRefreshToken(user);
 
-  user.refreshToken = refreshToken;
   user.save();
-  sendRefreshToken(res, refreshToken);
-  sendAccessToken(req, res, accessToken, user);
+  await saveRefreshToken(user._id, refreshToken);
+  return res.status(200).json({
+    name: user.name,
+    lastname: user.lastname,
+    email: user.email,
+    role: user.role,
+    accessToken,
+    refreshToken,
+  });
 });
 
 const logout = asyncHandler(async (req, res, next) => {
-  res.clearCookie("refreshToken", { path: "/refresh-token" });
-
+  const { userID } = req.params;
+  await deleteRefreshToken(userID);
   return res.status(200).json({
     success: true,
   });
 });
 
 const refreshToken = asyncHandler(async (req, res, next) => {
-  const token = req.cookies.refreshToken;
+  const token = req.headers.refreshtoken;
   if (!token) return res.json({ accessToken: "" });
   let payload = verify(token, process.env.SECRET_REFRESH_TOKEN);
   if (!payload) return res.json({ accessToken: "" });
-
-  let user = await User.findById(payload.userID);
-  if (!user) return res.json({ accessToken: "" });
-  if (user.refreshToken !== token) return res.json({ accessToken: "" });
+  let user = await User.findById(payload._id);
+  if (!user) return res.json({ accessToken: "user not found" });
+  const existingRefreshtoken = await RefreshToken.findOne({ user: user._id });
+  if (existingRefreshtoken.refreshToken !== token) {
+    return res.json({ accessToken: "token is not correct" });
+  }
 
   const accessToken = createAccessToken(user);
   const refreshToken = createRefreshToken(user);
-  user.refreshToken = refreshToken;
-  user.save();
-  sendRefreshToken(res, refreshToken);
-  return res.status(200).json({ accessToken });
+  await user.save();
+  await saveRefreshToken(user._id, refreshToken);
+  return res.status(200).json({ accessToken, refreshToken });
 });
 
 const changeInformation = asyncHandler(async (req, res, next) => {

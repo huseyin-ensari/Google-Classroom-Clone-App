@@ -1,4 +1,6 @@
 const { sign } = require("jsonwebtoken");
+const RefreshToken = require("../../models/RefreshToken");
+const CustomError = require("../errors/CustomError");
 
 const {
   SECRET_ACCESS_TOKEN,
@@ -23,26 +25,27 @@ const createRefreshToken = (user) => {
   });
 };
 
-const sendAccessToken = (req, res, accessToken, user) => {
-  const { email, name, lastname, role } = user;
-  res.send({
-    accessToken,
-    email,
-    name,
-    lastname,
-    role,
-  });
+const saveRefreshToken = async (userID, refreshToken) => {
+  const isUserExist = await RefreshToken.findOne({ user: userID });
+  if (isUserExist) {
+    isUserExist.refreshToken = refreshToken;
+    await isUserExist.save();
+  } else {
+    const newRefreshToken = await RefreshToken({});
+    newRefreshToken.user = userID;
+    newRefreshToken.refreshToken = refreshToken;
+    await newRefreshToken.save();
+  }
 };
 
-const sendRefreshToken = (res, token) => {
-  res.cookie("refreshToken", token, {
-    path: "/refresh-token",
-  });
+const deleteRefreshToken = async (userID) => {
+  const result = await RefreshToken.findOneAndDelete({ user: userID });
+  if (!result) return next(new CustomError("Refresh token is not found", 400));
 };
 
 module.exports = {
   createAccessToken,
   createRefreshToken,
-  sendAccessToken,
-  sendRefreshToken,
+  saveRefreshToken,
+  deleteRefreshToken,
 };
