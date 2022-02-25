@@ -30,7 +30,7 @@ const LoginPage = () => {
         login(response);
         navigate("/");
       } catch (err) {
-        bag.setErrors({ general: err.response.data.message });
+        bag.setErrors({ general: err.response?.data.message });
       }
     },
   });
