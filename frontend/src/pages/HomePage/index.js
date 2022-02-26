@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { AuthContext } from "../../contexts/authContext";
 import NoClassroom from "./NoClassroom";
 import classroomSVG from "./assets/classroom.svg";
 
 const HomePage = () => {
-  const { classrooms } = useContext(AuthContext);
+  const { classrooms, user } = useContext(AuthContext);
+
+  useEffect(() => {}, [classrooms]);
+
   return (
     <Container className="mt-5">
       {classrooms.length === 0 ? (
@@ -14,7 +17,11 @@ const HomePage = () => {
         <Row xs={1} md={2} lg={4} className="g-3">
           {classrooms.map((classroom) => (
             <Col key={classroom._id}>
-              <Card>
+              <Card
+                border={
+                  classroom.teacher._id === user._id ? "warning" : "primary"
+                }
+              >
                 <Card.Img variant="top" src={classroomSVG} className="p-4" />
                 <Card.Body>
                   <Card.Title>{classroom.title}</Card.Title>

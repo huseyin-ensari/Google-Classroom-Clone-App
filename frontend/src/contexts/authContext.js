@@ -54,6 +54,7 @@ const AuthContextProvider = ({ children }) => {
     login,
     classrooms,
     logout,
+    setClassrooms,
   };
 
   if (loading) {
