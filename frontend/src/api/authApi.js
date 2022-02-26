@@ -13,7 +13,7 @@ async function tokenRefresh() {
   return result;
 }
 
-const api = axios.create();
+export const api = axios.create();
 api.interceptors.request.use(
   async (config) => {
     let accessToken = localStorage.getItem("access-token");
@@ -50,7 +50,7 @@ export const fetchMe = async () => {
 };
 
 export const fetchLogout = async (userID) => {
-  if (userID != undefined) {
+  if (userID !== undefined) {
     const result = await axios.get(`${BASE_URL}/api/users/logout/${userID}`);
 
     return result;
