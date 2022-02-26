@@ -38,6 +38,7 @@ const AuthContextProvider = ({ children }) => {
     setIsLoggin(false);
     await fetchLogout(user._id);
     setUser(null);
+    setClassrooms([]);
   };
 
   const login = (response) => {
