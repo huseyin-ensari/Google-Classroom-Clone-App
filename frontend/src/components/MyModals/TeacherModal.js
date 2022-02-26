@@ -2,9 +2,9 @@ import { useFormik } from "formik";
 import React from "react";
 import { Form, Modal, FloatingLabel, Button } from "react-bootstrap";
 import { fetchCreateClassroom } from "../../api/classroomApi";
-import { classroomValidation } from "../../helpers/inputValidation.js";
+import { classroomValidation } from "../../helpers/inputValidation.js/index.js";
 
-const TeacherModel = (props) => {
+const TeacherModal = (props) => {
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -13,8 +13,7 @@ const TeacherModel = (props) => {
     validationSchema: classroomValidation,
     onSubmit: async (values, bag) => {
       try {
-        const response = await fetchCreateClassroom(values);
-        console.log("sınıf oluşturma -> ", response);
+        await fetchCreateClassroom(values);
       } catch (e) {}
       values.title = "";
       values.subtitle = "";
@@ -83,4 +82,4 @@ const TeacherModel = (props) => {
   );
 };
 
-export default TeacherModel;
+export default TeacherModal;

@@ -1,15 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Button, Stack } from "react-bootstrap";
 import { BsPersonCircle } from "react-icons/bs";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { IoAddCircleSharp, IoSchoolSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext";
-import TeacherModel from "../MyModals/TeacherModel";
+import { StudentModal, TeacherModal } from "../MyModals";
+import { fetchMe } from "../../api/authApi";
 
 const ProfileButton = () => {
   const [modalShow, setModalShow] = useState(false);
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, setClassrooms } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -17,14 +18,26 @@ const ProfileButton = () => {
     navigate("/");
   };
 
+  useEffect(() => {
+    (async () => {
+      const { data } = await fetchMe();
+      setClassrooms(data.classrooms);
+    })();
+  }, [modalShow, setClassrooms]);
+
   return (
     <Stack className="ms-auto" direction="horizontal" gap={2}>
       {user.role === "student" ? (
         <>
-          <Button variant="warning" size="sm">
+          <Button
+            variant="warning"
+            size="sm"
+            onClick={() => setModalShow(true)}
+          >
             <IoAddCircleSharp className="me-2" />
             Enter the classroom
           </Button>
+          <StudentModal show={modalShow} onHide={() => setModalShow(false)} />
         </>
       ) : (
         <>
@@ -36,7 +49,7 @@ const ProfileButton = () => {
             <IoSchoolSharp className="me-2" />
             Create Classroom
           </Button>
-          <TeacherModel show={modalShow} onHide={() => setModalShow(false)} />
+          <TeacherModal show={modalShow} onHide={() => setModalShow(false)} />
         </>
       )}
       <Button
