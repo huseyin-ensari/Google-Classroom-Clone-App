@@ -39,7 +39,7 @@ const ClassroomSchema = new Schema({
 
 ClassroomSchema.pre("save", function (next) {
   if (this.accessCode) return next();
-  this.accessCode = nanoid(5).toUpperCase();
+  this.accessCode = nanoid(5).toUpperCase().trim();
   next();
 });
 

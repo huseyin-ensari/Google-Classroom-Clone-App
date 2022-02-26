@@ -107,7 +107,7 @@ const changeInformation = asyncHandler(async (req, res, next) => {
 const getUserInformation = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("-password");
   if (!user) return next(new CustomError("User not found", 400));
-  const classrooms = await Classroom.find({
+  const attended = await Classroom.find({
     students: user.id,
   })
     .select("title subtitle teacher")
@@ -115,6 +115,16 @@ const getUserInformation = asyncHandler(async (req, res, next) => {
       path: "teacher",
       select: "name lastname ",
     });
+
+  const createdBy = await Classroom.find({
+    teacher: user.id,
+  })
+    .select("title subtitle teacher")
+    .populate({
+      path: "teacher",
+      select: "name lastname ",
+    });
+  const classrooms = [...createdBy, ...attended];
   return res.status(200).json({ user, classrooms });
 });
 
