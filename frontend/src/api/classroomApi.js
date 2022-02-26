@@ -6,3 +6,10 @@ export const fetchCreateClassroom = async (inputs) => {
   const result = await api.post(`${BASE_URL}/api/classroom/create`, inputs);
   return result;
 };
+
+export const fetchJoinClassroom = async (classroomCode) => {
+  const result = await api.post(
+    `${BASE_URL}/api/classroom/join/${classroomCode}`
+  );
+  return result;
+};
