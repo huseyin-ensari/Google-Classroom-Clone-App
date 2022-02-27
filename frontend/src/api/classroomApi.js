@@ -13,3 +13,8 @@ export const fetchJoinClassroom = async (classroomCode) => {
   );
   return result;
 };
+
+export const fetchClassroomDetail = async (classroomID) => {
+  const result = await api.get(`${BASE_URL}/api/classroom/${classroomID}`);
+  return result;
+};
