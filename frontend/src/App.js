@@ -1,6 +1,12 @@
 import { Navigation } from "./components";
 import { Routes, Route } from "react-router-dom";
-import { LandingPage, LoginPage, RegisterPage, HomePage } from "./pages/index";
+import {
+  LandingPage,
+  LoginPage,
+  RegisterPage,
+  HomePage,
+  ClassroomPage,
+} from "./pages/index";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/authContext";
 import { PrivateRoutes, NonPrivateRoutes } from "./configs/routeLayout";
@@ -20,7 +26,9 @@ function App() {
         </Route>
         {/* End of NonPrivateRoutes */}
         {/* PrivateRoutes */}
-        <Route element={<PrivateRoutes isLoggin={isLoggin} />}></Route>
+        <Route element={<PrivateRoutes isLoggin={isLoggin} />}>
+          <Route path="/classroom/:classroomID" element={<ClassroomPage />} />
+        </Route>
         {/* End of PrivateRoutes */}
       </Routes>
     </div>
