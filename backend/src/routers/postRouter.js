@@ -10,6 +10,13 @@ const {
 
 // /api/posts
 
+router.get(
+  "/:classroomID",
+  isAuth,
+  classroomCheck,
+  postController.getPostsByClassroom
+);
+
 router.post(
   "/:classroomID",
   isAuth,

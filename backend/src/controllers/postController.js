@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const CustomError = require("../helpers/errors/CustomError");
+const Classroom = require("../models/Classroom");
 const Post = require("../models/Post");
 
 const createPost = asyncHandler(async (req, res, next) => {
@@ -44,8 +45,20 @@ const updatePost = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ success: true, data: post });
 });
 
+const getPostsByClassroom = asyncHandler(async (req, res, next) => {
+  const posts = await Classroom.findById(req.classroom._id)
+    .select("posts")
+    .populate({
+      path: "posts",
+      select: "-__v",
+      populate: { path: "author", select: "name lastname" },
+    });
+  return res.json({ posts });
+});
+
 module.exports = {
   createPost,
   deletePost,
   updatePost,
+  getPostsByClassroom,
 };
