@@ -18,3 +18,11 @@ export const fetchClassroomDetail = async (classroomID) => {
   const result = await api.get(`${BASE_URL}/api/classroom/${classroomID}`);
   return result;
 };
+
+export const fetchUpdateClassroomInformation = async (classroomID, inputs) => {
+  const result = await api.patch(
+    `${BASE_URL}/api/classroom/${classroomID}`,
+    inputs
+  );
+  return result;
+};
