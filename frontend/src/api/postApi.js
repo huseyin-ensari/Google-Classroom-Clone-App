@@ -6,3 +6,8 @@ export const fetchCreatePost = async (classroomID, inputs) => {
   const result = await api.post(`${BASE_URL}/api/posts/${classroomID}`, inputs);
   return result;
 };
+
+export const fetchPostsByClassroom = async (classroomID) => {
+  const result = await api.get(`${BASE_URL}/api/posts/${classroomID}`);
+  return result;
+};
