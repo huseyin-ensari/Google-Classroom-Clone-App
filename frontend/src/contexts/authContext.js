@@ -9,6 +9,8 @@ const AuthContextProvider = ({ children }) => {
   const [isLoggin, setIsLoggin] = useState(false);
   const [classrooms, setClassrooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [classroom, setClassroom] = useState(null);
+  const [posts, setPosts] = useState([]);
   /*
     user = {
       _id,
@@ -52,9 +54,13 @@ const AuthContextProvider = ({ children }) => {
     user,
     isLoggin,
     login,
-    classrooms,
     logout,
+    classrooms,
     setClassrooms,
+    classroom,
+    setClassroom,
+    posts,
+    setPosts,
   };
 
   if (loading) {
