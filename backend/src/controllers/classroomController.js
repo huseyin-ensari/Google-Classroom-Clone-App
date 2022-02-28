@@ -39,6 +39,13 @@ const getClassroomInfo = asyncHandler(async (req, res, next) => {
     .populate({
       path: "students",
       select: "name lastname ",
+    })
+    .populate({
+      path: "posts",
+      populate: {
+        path: "author",
+        select: "name lastname",
+      },
     });
   if (!classroom) return next(new CustomError("Classroom not found", 400));
 
@@ -76,7 +83,7 @@ const changeInformation = asyncHandler(async (req, res, next) => {
   if (classroom.teacher.toString() !== req.user.id) {
     return next(new CustomError("You are not authorized", 400));
   }
-  return res.status(200).json({ success: true });
+  return res.status(200).json({ classroom });
 });
 
 const deleteClassroom = asyncHandler(async (req, res, next) => {
