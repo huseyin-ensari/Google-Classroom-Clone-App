@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Badge, Button, Col, Row } from "react-bootstrap";
-import { AiFillEdit } from "react-icons/ai";
+import React, { useContext } from "react";
+import { Badge, Col, Row } from "react-bootstrap";
 import { EditClassroomInformation } from "../../components/MyOffCanvas";
 import { AuthContext } from "../../contexts/authContext";
 

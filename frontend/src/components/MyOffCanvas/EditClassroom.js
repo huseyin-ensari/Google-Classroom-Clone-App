@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Offcanvas, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import { AiFillEdit } from "react-icons/ai";
@@ -43,7 +43,7 @@ const EditClassroom = ({ classroom }) => {
         <Offcanvas.Header closeButton={true}>
           <Offcanvas.Title>Edit Classroom Title</Offcanvas.Title>
         </Offcanvas.Header>
-        <Offcanvas.Body>
+        <Offcanvas.Body className="mt-2">
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group>
               <Form.Label>Title</Form.Label>

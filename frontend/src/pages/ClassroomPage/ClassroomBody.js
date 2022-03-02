@@ -1,15 +1,9 @@
-import { useContext, useEffect } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import PostTab from "./PostTab";
 import HomeworkTab from "./HomeworkTab";
 import StudentTab from "./StudentTab";
-import { AuthContext } from "../../contexts/authContext";
 
 const ClassroomBody = ({ classroom }) => {
-  const { posts, setPosts } = useContext(AuthContext);
-
-  useEffect(() => {}, [posts]);
-
   return (
     <Tabs defaultActiveKey={"posts"}>
       <Tab eventKey={"posts"} title="Posts">

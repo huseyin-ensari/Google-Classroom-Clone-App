@@ -7,7 +7,6 @@ import classroomSVG from "./assets/classroom.svg";
 
 const HomePage = () => {
   const { classrooms, user } = useContext(AuthContext);
-
   useEffect(() => {}, [classrooms]);
 
   return (
@@ -22,20 +21,16 @@ const HomePage = () => {
                 to={`/classroom/${classroom._id}`}
                 className="text-decoration-none text-dark"
               >
-                <Card
-                  border={
-                    classroom.teacher._id === user._id ? "warning" : "primary"
-                  }
-                >
+                <Card border={user.role === "teacher" ? "warning" : "primary"}>
                   <Card.Img variant="top" src={classroomSVG} className="p-4" />
                   <Card.Body>
                     <Card.Title>{classroom.title}</Card.Title>
                     <Card.Text>{classroom.subtitle}</Card.Text>
-                    <Card.Text className="text-end fst-italic">
-                      {classroom.teacher.name.toUpperCase()}{" "}
-                      {classroom.teacher.lastname.toUpperCase()}
-                    </Card.Text>
                   </Card.Body>
+                  <Card.Footer className="text-end fst-italic">
+                    {classroom.teacher.name.toUpperCase()}{" "}
+                    {classroom.teacher.lastname.toUpperCase()}
+                  </Card.Footer>
                 </Card>
               </Link>
             </Col>
