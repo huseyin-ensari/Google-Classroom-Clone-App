@@ -16,3 +16,7 @@ export const fetchDownloadPostFile = (filename) => {
   const filePath = `${BASE_URL}/api/posts/download/${filename}`;
   return filePath;
 };
+
+export const fetchDeletePost = async (classroomID, postID) => {
+  await api.delete(`${BASE_URL}/api/posts/${classroomID}/${postID}`);
+};

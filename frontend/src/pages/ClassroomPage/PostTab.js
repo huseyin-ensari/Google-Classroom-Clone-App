@@ -3,6 +3,7 @@ import { useEffect, useContext } from "react";
 import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
 import {
   fetchCreatePost,
+  fetchDeletePost,
   fetchDownloadPostFile,
   fetchPostsByClassroom,
 } from "../../api/postApi";
@@ -10,22 +11,27 @@ import { AuthContext } from "../../contexts/authContext";
 import { GrDocumentDownload } from "react-icons/gr";
 import moment from "moment";
 import { saveAs } from "file-saver";
+import { AiFillDelete } from "react-icons/ai";
 
 const PostTab = ({ classroom }) => {
   const { posts, setPosts, user } = useContext(AuthContext);
-  console.log("user -> ", user);
+
   useEffect(() => {
-    const getPostsByClassroom = async (classroomID) => {
-      let { data } = await fetchPostsByClassroom(classroomID);
+    const getPostsByClassroom = async () => {
+      let { data } = await fetchPostsByClassroom(classroom._id);
       const currentPost = data.posts.posts;
-      console.log("postlar -> ", currentPost);
       setPosts([...currentPost]);
     };
-    getPostsByClassroom(classroom._id);
-  }, [classroom, setPosts]);
+    getPostsByClassroom();
+  }, [setPosts, classroom]);
 
   const downloadFile = async (filename) => {
     saveAs(fetchDownloadPostFile(filename), "myPhoto");
+  };
+
+  const deletePost = async (classroomID, postID) => {
+    await fetchDeletePost(classroomID, postID);
+    setPosts(posts.filter((post) => post._id !== postID));
   };
 
   return (
@@ -37,7 +43,18 @@ const PostTab = ({ classroom }) => {
       {posts.reverse().map((post) => (
         <Card className="mt-2" key={post._id}>
           <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
+            <Card.Title>
+              <h5 className="d-inline me-3">{post.title}</h5>
+              {user._id === post.author._id && (
+                <Button
+                  size="sm"
+                  variant="warning"
+                  onClick={() => deletePost(classroom._id, post._id)}
+                >
+                  <AiFillDelete />
+                </Button>
+              )}
+            </Card.Title>
             <Card.Text>{post.content}</Card.Text>
             <Card.Text>{post.content}</Card.Text>
           </Card.Body>
@@ -72,7 +89,7 @@ export default PostTab;
 
 const CreatePostInputs = ({ classroom }) => {
   const formData = new FormData();
-  const { posts, setPosts } = useContext(AuthContext);
+  const { setPosts } = useContext(AuthContext);
 
   const formik = useFormik({
     initialValues: {
