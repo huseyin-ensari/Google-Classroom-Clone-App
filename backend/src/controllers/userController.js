@@ -52,6 +52,7 @@ const login = asyncHandler(async (req, res, next) => {
   user.save();
   await saveRefreshToken(user._id, refreshToken);
   return res.status(200).json({
+    id: user._id,
     name: user.name,
     lastname: user.lastname,
     email: user.email,

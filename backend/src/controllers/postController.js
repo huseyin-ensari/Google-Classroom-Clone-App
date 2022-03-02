@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const CustomError = require("../helpers/errors/CustomError");
 const Classroom = require("../models/Classroom");
 const Post = require("../models/Post");
+const path = require("path");
 
 const createPost = asyncHandler(async (req, res, next) => {
   const { classroomID } = req.params;
@@ -56,9 +57,18 @@ const getPostsByClassroom = asyncHandler(async (req, res, next) => {
   return res.json({ posts });
 });
 
+const sendPostFile = asyncHandler(async (req, res, next) => {
+  const appPath = path.resolve();
+  const filePath = "/public/uploads/posts";
+  const { filename } = req.params;
+  const myPath = path.join(appPath, filePath, filename);
+  return res.status(200).sendFile(myPath);
+});
+
 module.exports = {
   createPost,
   deletePost,
   updatePost,
   getPostsByClassroom,
+  sendPostFile,
 };

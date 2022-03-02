@@ -41,4 +41,6 @@ router.patch(
   postController.updatePost
 );
 
+router.get("/download/:filename", postController.sendPostFile);
+
 module.exports = router;
