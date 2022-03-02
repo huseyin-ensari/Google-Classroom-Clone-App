@@ -1,11 +1,21 @@
-import React from "react";
-import { Badge, Col, Container, Row, Spinner } from "react-bootstrap";
+import React, { useContext, useState } from "react";
+import { Badge, Button, Col, Row } from "react-bootstrap";
+import { AiFillEdit } from "react-icons/ai";
+import { EditClassroomInformation } from "../../components/MyOffCanvas";
+import { AuthContext } from "../../contexts/authContext";
 
 const ClassroomHeader = ({ classroom }) => {
+  const { user } = useContext(AuthContext);
+
   return (
     <Row className="mt-4">
       <Col>
-        <h1>{classroom.title}</h1>
+        <h1>
+          {classroom.title}{" "}
+          {user.role === "teacher" && (
+            <EditClassroomInformation classroom={classroom} />
+          )}
+        </h1>
       </Col>
       <Col className="text-end">
         <span className="d-block">
