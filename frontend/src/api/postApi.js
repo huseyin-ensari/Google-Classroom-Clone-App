@@ -11,3 +11,8 @@ export const fetchPostsByClassroom = async (classroomID) => {
   const result = await api.get(`${BASE_URL}/api/posts/${classroomID}`);
   return result;
 };
+
+export const fetchDownloadPostFile = (filename) => {
+  const filePath = `${BASE_URL}/api/posts/download/${filename}`;
+  return filePath;
+};
