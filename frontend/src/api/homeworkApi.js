@@ -10,3 +10,11 @@ export const fetchCreateHomework = async (classroomID, inputs) => {
 
   return result;
 };
+
+export const fetchSubmitHomework = async (homeworkID, inputs) => {
+  const result = await api.post(
+    `${BASE_URL}/api/homeworks/${homeworkID}`,
+    inputs
+  );
+  return result;
+};
