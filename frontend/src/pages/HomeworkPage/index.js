@@ -1,8 +1,13 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Badge, Col, Container, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { fetchHomeworkDetail } from "../../api/homeworkApi";
+import {
+  fetchDownloadHomeworkFile,
+  fetchHomeworkDetail,
+} from "../../api/homeworkApi";
+import { FaDownload } from "react-icons/fa";
+import { saveAs } from "file-saver";
 
 const HomeworkPage = () => {
   const { homeworkID } = useParams();
@@ -17,6 +22,10 @@ const HomeworkPage = () => {
     getHomeworkDetail();
   }, [homeworkID]);
 
+  const downloadFile = async (filename) => {
+    saveAs(fetchDownloadHomeworkFile(filename), "Project");
+  };
+
   return (
     <Container className="mt-4">
       {/* header */}
@@ -27,7 +36,6 @@ const HomeworkPage = () => {
         <Col className="text-end">
           THE LAST DAY : {moment(homework.endTime).format("DD.MM.YYYY")}
           <br />
-          {/* Teacher : {homework.teacher.name} {homework.teacher.lastname} */}
         </Col>
       </Row>
       <hr className="bg-primary" />
@@ -54,7 +62,15 @@ const HomeworkPage = () => {
                 <tr key={submitter._id}>
                   <td>{submitter.user.name}</td>
                   <td>{submitter.user.lastname}</td>
-                  <td>Download</td>
+                  <td>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => downloadFile(submitter?.file)}
+                    >
+                      Download <FaDownload />
+                    </Button>
+                  </td>
                   <td>-</td>
                   <td>Button</td>
                 </tr>
@@ -63,29 +79,30 @@ const HomeworkPage = () => {
           </Table>
         </>
       )}
-      {homework?.appointedStudents?.length > 0 &&
-        homework?.appointedStudents?.map((student) => (
-          <>
-            <p className="text-center text-uppercase border border-warning border-2 ">
-              Those who do not do their homework
-            </p>
+      {homework?.appointedStudents?.length > 0 && (
+        <>
+          <p className="text-center text-uppercase border border-warning border-2 ">
+            Those who do not do their homework
+          </p>
 
-            <Table striped bordered hover size="sm">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Lastname</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
+          <Table striped bordered hover size="sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Lastname</th>
+              </tr>
+            </thead>
+            <tbody>
+              {homework?.appointedStudents?.map((student) => (
+                <tr key={student._id}>
                   <th>{student.name}</th>
                   <th>{student.lastname}</th>
                 </tr>
-              </tbody>
-            </Table>
-          </>
-        ))}
+              ))}
+            </tbody>
+          </Table>
+        </>
+      )}
     </Container>
   );
 };
