@@ -23,3 +23,8 @@ export const fetchHomeworkDetail = async (homeworkID) => {
   const result = await api.get(`${BASE_URL}/api/homeworks/${homeworkID}`);
   return result;
 };
+
+export const fetchDownloadHomeworkFile = (filename) => {
+  const filePath = `${BASE_URL}/api/homeworks/download/${filename}`;
+  return filePath;
+};
