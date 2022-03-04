@@ -46,6 +46,9 @@ const getClassroomInfo = asyncHandler(async (req, res, next) => {
         path: "author",
         select: "name lastname",
       },
+    })
+    .populate({
+      path: "homeworks",
     });
   if (!classroom) return next(new CustomError("Classroom not found", 400));
 

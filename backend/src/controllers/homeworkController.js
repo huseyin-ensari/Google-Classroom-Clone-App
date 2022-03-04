@@ -53,6 +53,10 @@ const getHomework = asyncHandler(async (req, res, next) => {
     .populate({
       path: "appointedStudents",
       select: "name lastname",
+    })
+    .populate({
+      path: "teacher",
+      select: "name lastname",
     });
   return res.status(200).json({ success: true, homework });
 });
