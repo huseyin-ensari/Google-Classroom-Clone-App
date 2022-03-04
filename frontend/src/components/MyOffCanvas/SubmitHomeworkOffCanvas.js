@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Offcanvas, Button, Form } from "react-bootstrap";
+import { Offcanvas, Button, Form, Alert } from "react-bootstrap";
 import { useFormik } from "formik";
 import { BsFillCapslockFill } from "react-icons/bs";
 import { fetchSubmitHomework } from "../../api/homeworkApi";
@@ -16,12 +16,16 @@ const SubmitHomeworkOffCanvas = ({ homeworkID }) => {
     initialValues: {
       homework: null,
     },
-    onSubmit: async (values) => {
-      formData.append("homework", values.homework);
-      console.log("inputs -> ", values);
-      const { data } = await fetchSubmitHomework(homeworkID, formData);
-      console.log("response -> ", data);
-      setShow(false);
+    onSubmit: async (values, bag) => {
+      try {
+        formData.append("homework", values.homework);
+        console.log("inputs -> ", values);
+        const { data } = await fetchSubmitHomework(homeworkID, formData);
+        console.log("response -> ", data);
+        setShow(false);
+      } catch (e) {
+        bag.setErrors({ general: e.response?.data.message });
+      }
     },
   });
 
@@ -46,6 +50,9 @@ const SubmitHomeworkOffCanvas = ({ homeworkID }) => {
           <Offcanvas.Title>Homework Upload</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className="mt-2">
+          {formik.errors.general && (
+            <Alert variant="danger">{formik.errors.general}</Alert>
+          )}
           <Form onSubmit={formik.handleSubmit} encType="multipart/form-data">
             <Form.Group controlId="homework" className="mb-3 mt-2">
               <Form.Label>File Upload</Form.Label>
