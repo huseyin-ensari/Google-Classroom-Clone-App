@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import { Button, Form, Accordion } from "react-bootstrap";
 import { useFormik } from "formik";
 import { fetchCreateHomework } from "../../api/homeworkApi";
+import { fetchClassroomDetail } from "../../api/classroomApi";
 import { AuthContext } from "../../contexts/authContext";
 
 const CreateHomework = () => {
-  const { classroom } = useContext(AuthContext);
+  const { classroom, setClassroom } = useContext(AuthContext);
 
   const formik = useFormik({
     initialValues: {
@@ -14,8 +15,10 @@ const CreateHomework = () => {
       endTime: "",
     },
     onSubmit: async (values, bag) => {
-      const response = await fetchCreateHomework(classroom._id, values);
-      console.log("response ", response);
+      await fetchCreateHomework(classroom._id, values);
+
+      const { data } = await fetchClassroomDetail(classroom._id);
+      setClassroom({ ...data.data });
     },
   });
 

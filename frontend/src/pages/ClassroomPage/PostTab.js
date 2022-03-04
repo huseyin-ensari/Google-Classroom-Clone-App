@@ -74,7 +74,7 @@ const PostTab = ({ classroom }) => {
                 {post.author.name} {post.author.lastname}
                 <span className="ms-2">|</span>
                 <span className="ms-2">
-                  {moment(post.createdAt).format("DD-MM-YYYY")}
+                  {moment(post.createdAt).format("DD.MM.YYYY")}
                 </span>
               </Col>
             </Row>
