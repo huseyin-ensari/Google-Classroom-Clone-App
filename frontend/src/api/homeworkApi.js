@@ -28,3 +28,11 @@ export const fetchDownloadHomeworkFile = (filename) => {
   const filePath = `${BASE_URL}/api/homeworks/download/${filename}`;
   return filePath;
 };
+
+export const fetchRateIt = async (projectID, input) => {
+  const result = await api.patch(
+    `${BASE_URL}/api/homeworks/project/${projectID}`,
+    input
+  );
+  return result;
+};
