@@ -19,9 +19,7 @@ const SubmitHomeworkOffCanvas = ({ homeworkID }) => {
     onSubmit: async (values, bag) => {
       try {
         formData.append("homework", values.homework);
-        console.log("inputs -> ", values);
-        const { data } = await fetchSubmitHomework(homeworkID, formData);
-        console.log("response -> ", data);
+        await fetchSubmitHomework(homeworkID, formData);
         setShow(false);
       } catch (e) {
         bag.setErrors({ general: e.response?.data.message });

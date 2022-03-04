@@ -8,19 +8,20 @@ import {
 } from "../../api/homeworkApi";
 import { FaDownload } from "react-icons/fa";
 import { saveAs } from "file-saver";
+import RateProjectOffCanvas from "../../components/MyOffCanvas/RateProjectOffCanvas";
 
 const HomeworkPage = () => {
   const { homeworkID } = useParams();
   const [homework, setHomework] = useState({});
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const getHomeworkDetail = async () => {
       const { data } = await fetchHomeworkDetail(homeworkID);
-      console.log("homework -> ", data.homework);
       setHomework({ ...data.homework });
     };
     getHomeworkDetail();
-  }, [homeworkID]);
+  }, [homeworkID, show]);
 
   const downloadFile = async (filename) => {
     saveAs(fetchDownloadHomeworkFile(filename), "Project");
@@ -68,11 +69,20 @@ const HomeworkPage = () => {
                       variant="secondary"
                       onClick={() => downloadFile(submitter?.file)}
                     >
-                      Download <FaDownload />
+                      <FaDownload className="me-2" />
+                      Download
                     </Button>
                   </td>
-                  <td>-</td>
-                  <td>Button</td>
+                  <td>{submitter.score ? submitter.score : "-"}</td>
+                  <td>
+                    <RateProjectOffCanvas
+                      name={submitter.user.name}
+                      lastname={submitter.user.lastname}
+                      projectID={submitter._id}
+                      show={show}
+                      setShow={setShow}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -95,8 +105,8 @@ const HomeworkPage = () => {
             <tbody>
               {homework?.appointedStudents?.map((student) => (
                 <tr key={student._id}>
-                  <th>{student.name}</th>
-                  <th>{student.lastname}</th>
+                  <td>{student.name}</td>
+                  <td>{student.lastname}</td>
                 </tr>
               ))}
             </tbody>

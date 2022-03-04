@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { Offcanvas, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import { scoreValidation } from "../../helpers/inputValidation.js";
 import { MdNoteAdd } from "react-icons/md";
-import { fetchRateIt, fetchHomeworkDetail } from "../../api/homeworkApi";
+import { fetchRateIt } from "../../api/homeworkApi";
 
 const RateProjectOffCanvas = ({ name, lastname, projectID, show, setShow }) => {
   const handleClose = () => setShow(false);
@@ -16,10 +15,8 @@ const RateProjectOffCanvas = ({ name, lastname, projectID, show, setShow }) => {
     validationSchema: scoreValidation,
     onSubmit: async (values) => {
       try {
-        const data = await fetchRateIt(projectID, values);
+        await fetchRateIt(projectID, values);
         setShow(false);
-        console.log("values -> ", values);
-        console.log("cevap -> ", data);
       } catch (e) {}
     },
   });
