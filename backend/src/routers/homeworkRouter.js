@@ -47,6 +47,8 @@ router.patch(
   homeworkController.rateProject
 );
 
+router.get("/download/:filename", homeworkController.sendHomeworkFile);
+
 router.get("/score/:classroomID/:homeworkID", homeworkController.exportScores);
 
 module.exports = router;

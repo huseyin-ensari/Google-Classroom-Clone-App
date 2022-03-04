@@ -4,6 +4,7 @@ const Classroom = require("../models/Classroom");
 const Project = require("../models/Projects");
 const CustomError = require("../helpers/errors/CustomError");
 const excelCreater = require("../helpers/excel/excelCreater");
+const path = require("path");
 
 const addHomework = asyncHandler(async (req, res, next) => {
   const { title, content, endTime } = req.body;
@@ -121,6 +122,14 @@ const exportScores = asyncHandler(async (req, res, next) => {
   return res.send(homework);
 });
 
+const sendHomeworkFile = asyncHandler(async (req, res, next) => {
+  const appPath = path.resolve();
+  const filePath = "/public/uploads/homeworks";
+  const { filename } = req.params;
+  const myPath = path.join(appPath, filePath, filename);
+  return res.status(200).sendFile(myPath);
+});
+
 module.exports = {
   addHomework,
   submitHomework,
@@ -128,4 +137,5 @@ module.exports = {
   updateHomework,
   rateProject,
   exportScores,
+  sendHomeworkFile,
 };
