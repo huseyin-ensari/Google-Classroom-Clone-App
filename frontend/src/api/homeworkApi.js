@@ -18,3 +18,8 @@ export const fetchSubmitHomework = async (homeworkID, inputs) => {
   );
   return result;
 };
+
+export const fetchHomeworkDetail = async (homeworkID) => {
+  const result = await api.get(`${BASE_URL}/api/homeworks/${homeworkID}`);
+  return result;
+};
