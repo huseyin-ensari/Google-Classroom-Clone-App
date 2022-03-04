@@ -6,12 +6,12 @@ import {
   downloadExcel,
 } from "./assets";
 import MyCard from "./Card";
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 const CardsSection = () => {
   return (
-    <Container className="p-5">
-      <Row className="justify-content-between g-4" xs={2} md={3} sm={2}>
+    <Container className="p-2">
+      <Row className="g-4 mt-3 mx-3" xs={1} md={2} sm={2} lg={4}>
         <MyCard
           img={lectureNotes}
           title="Share Lecture Notes"
