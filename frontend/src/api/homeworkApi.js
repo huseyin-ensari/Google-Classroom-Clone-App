@@ -43,3 +43,8 @@ export const fetchDeleteHomework = async (classroomID, homeworkID) => {
   );
   return result;
 };
+
+export const fetchDownloadExcelFile = (classroomID, homeworkID) => {
+  const excelUrl = `${BASE_URL}/api/homeworks/score/${classroomID}/${homeworkID}`;
+  return excelUrl;
+};

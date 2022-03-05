@@ -1,19 +1,23 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import {
+  fetchDownloadExcelFile,
   fetchDownloadHomeworkFile,
   fetchHomeworkDetail,
 } from "../../api/homeworkApi";
 import { FaDownload } from "react-icons/fa";
+import { SiMicrosoftexcel } from "react-icons/si";
 import { saveAs } from "file-saver";
 import RateProjectOffCanvas from "../../components/MyOffCanvas/RateProjectOffCanvas";
+import { AuthContext } from "../../contexts/authContext";
 
 const HomeworkPage = () => {
   const { homeworkID } = useParams();
   const [homework, setHomework] = useState({});
   const [show, setShow] = useState(false);
+  const { classroom } = useContext(AuthContext);
 
   useEffect(() => {
     const getHomeworkDetail = async () => {
@@ -27,6 +31,10 @@ const HomeworkPage = () => {
     saveAs(fetchDownloadHomeworkFile(filename), "Project");
   };
 
+  const downloadExcelFile = async (homeworkID) => {
+    saveAs(fetchDownloadExcelFile(classroom._id, homeworkID), "StudentGrades");
+  };
+
   return (
     <Container className="mt-4">
       {/* header */}
@@ -37,6 +45,13 @@ const HomeworkPage = () => {
         <Col className="text-end">
           THE LAST DAY : {moment(homework.endTime).format("DD.MM.YYYY")}
           <br />
+          <Button
+            size="sm"
+            variant="success"
+            onClick={() => downloadExcelFile(homeworkID)}
+          >
+            <SiMicrosoftexcel className="me-2" /> Download student grades
+          </Button>
         </Col>
       </Row>
       <hr className="bg-primary" />

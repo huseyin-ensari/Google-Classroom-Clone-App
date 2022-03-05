@@ -117,9 +117,14 @@ const exportScores = asyncHandler(async (req, res, next) => {
     projects.push(data);
   });
 
-  homework.scoreTable = await excelCreater(projects, classroom.accessCode);
+  const excelFile = await excelCreater(projects, classroom.accessCode);
+  homework.scoreTable = excelFile;
   homework.save();
-  return res.send(homework);
+
+  const appPath = path.resolve();
+  const filePath = "/public/uploads/excels";
+  const myPath = path.join(appPath, filePath, excelFile);
+  return res.status(200).sendFile(myPath);
 });
 
 const sendHomeworkFile = asyncHandler(async (req, res, next) => {
