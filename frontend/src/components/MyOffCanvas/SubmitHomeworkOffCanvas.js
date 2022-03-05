@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Offcanvas, Button, Form, Alert } from "react-bootstrap";
+import { Offcanvas, Button, Form, Alert, Toast } from "react-bootstrap";
 import { useFormik } from "formik";
 import { BsFillCapslockFill } from "react-icons/bs";
 import { fetchSubmitHomework } from "../../api/homeworkApi";
@@ -8,6 +8,7 @@ const SubmitHomeworkOffCanvas = ({ homeworkID }) => {
   const formData = new FormData();
 
   const [show, setShow] = useState(false);
+  const [toastShow, setToastShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -21,6 +22,7 @@ const SubmitHomeworkOffCanvas = ({ homeworkID }) => {
         formData.append("homework", values.homework);
         await fetchSubmitHomework(homeworkID, formData);
         setShow(false);
+        setToastShow(true);
       } catch (e) {
         bag.setErrors({ general: e.response?.data.message });
       }
@@ -69,6 +71,17 @@ const SubmitHomeworkOffCanvas = ({ homeworkID }) => {
           </Form>
         </Offcanvas.Body>
       </Offcanvas>
+      <Toast
+        onClose={() => setToastShow(false)}
+        show={toastShow}
+        delay={2000}
+        autohide
+      >
+        <Toast.Header>
+          <strong className="me-auto text-success">Successful</strong>
+        </Toast.Header>
+        <Toast.Body>Homework sent</Toast.Body>
+      </Toast>
     </>
   );
 };
