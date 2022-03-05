@@ -130,6 +130,18 @@ const sendHomeworkFile = asyncHandler(async (req, res, next) => {
   return res.status(200).sendFile(myPath);
 });
 
+const deleteHomework = asyncHandler(async (req, res, next) => {
+  const classroom = req.classroom;
+  const homework = req.homework;
+  if (req.user.id !== homework.teacher.toString()) {
+    return next(new CustomError("You are not authorized", 400));
+  }
+  classroom.homeworks.splice(classroom.homeworks.indexOf(homework._id), 1);
+  await classroom.save();
+  await homework.remove();
+  return res.status(200).json({ success: true });
+});
+
 module.exports = {
   addHomework,
   submitHomework,
@@ -138,4 +150,5 @@ module.exports = {
   rateProject,
   exportScores,
   sendHomeworkFile,
+  deleteHomework,
 };

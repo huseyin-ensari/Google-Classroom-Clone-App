@@ -40,6 +40,15 @@ router.patch(
   homeworkController.updateHomework
 );
 
+router.delete(
+  "/:classroomID/:homeworkID",
+  isAuth,
+  isTeacher,
+  classroomCheck,
+  homeworkCheck,
+  homeworkController.deleteHomework
+);
+
 router.patch(
   "/project/:projectID",
   isAuth,
