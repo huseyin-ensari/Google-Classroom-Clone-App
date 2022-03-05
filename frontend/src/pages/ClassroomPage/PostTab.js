@@ -12,6 +12,7 @@ import { GrDocumentDownload } from "react-icons/gr";
 import moment from "moment";
 import { saveAs } from "file-saver";
 import { AiFillDelete } from "react-icons/ai";
+import { createPostValidation } from "../../helpers/inputValidation.js";
 
 const PostTab = ({ classroom }) => {
   const { posts, setPosts, user } = useContext(AuthContext);
@@ -103,6 +104,7 @@ const CreatePostInputs = ({ classroom }) => {
       content: "",
       post_file: null,
     },
+    validationSchema: createPostValidation,
     onSubmit: async (values, bag) => {
       formData.append("title", values.title);
       formData.append("content", values.content);
@@ -137,7 +139,11 @@ const CreatePostInputs = ({ classroom }) => {
                 onChange={formik.handleChange}
                 type="text"
                 name="title"
+                isInvalid={formik.touched.title && formik.errors.title}
               />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.title}
+              </Form.Control.Feedback>
             </Form.Group>
             {/* Content */}
             <Form.Group className="mt-2">
