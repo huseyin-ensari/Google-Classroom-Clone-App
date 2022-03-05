@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import {
   fetchDownloadExcelFile,
@@ -17,6 +17,7 @@ const HomeworkPage = () => {
   const { homeworkID } = useParams();
   const [homework, setHomework] = useState({});
   const [show, setShow] = useState(false);
+  const [lock, setLock] = useState(false);
   const { classroom } = useContext(AuthContext);
 
   useEffect(() => {
@@ -32,7 +33,11 @@ const HomeworkPage = () => {
   };
 
   const downloadExcelFile = async (homeworkID) => {
+    setLock(true);
     saveAs(fetchDownloadExcelFile(classroom._id, homeworkID), "StudentGrades");
+    setTimeout(() => {
+      setLock(false);
+    }, 500);
   };
 
   return (
@@ -49,8 +54,25 @@ const HomeworkPage = () => {
             size="sm"
             variant="success"
             onClick={() => downloadExcelFile(homeworkID)}
+            disabled={lock}
           >
-            <SiMicrosoftexcel className="me-2" /> Download student grades
+            {lock ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                  className="me-2"
+                />
+                Loading...
+              </>
+            ) : (
+              <>
+                <SiMicrosoftexcel className="me-2" /> Download student grades
+              </>
+            )}
           </Button>
         </Col>
       </Row>
