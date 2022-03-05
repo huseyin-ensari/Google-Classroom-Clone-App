@@ -7,6 +7,7 @@ import {
   HomePage,
   HomeworkPage,
   ClassroomPage,
+  ErrorPage,
 } from "./pages/index";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/authContext";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/homework/:homeworkID" element={<HomeworkPage />} />
         </Route>
         {/* End of PrivateRoutes */}
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
   );

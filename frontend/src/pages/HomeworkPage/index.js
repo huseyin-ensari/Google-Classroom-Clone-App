@@ -41,7 +41,7 @@ const HomeworkPage = () => {
       </Row>
       <hr className="bg-primary" />
       {/* body */}
-      <p className="lead">{homework.content}sss</p>
+      <p className="lead">{homework.content}</p>
 
       {homework?.submitters?.length > 0 && (
         <>
