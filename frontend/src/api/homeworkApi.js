@@ -36,3 +36,10 @@ export const fetchRateIt = async (projectID, input) => {
   );
   return result;
 };
+
+export const fetchDeleteHomework = async (classroomID, homeworkID) => {
+  const result = await api.delete(
+    `${BASE_URL}/api/homeworks/${classroomID}/${homeworkID}`
+  );
+  return result;
+};

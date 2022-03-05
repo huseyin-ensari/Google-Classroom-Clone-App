@@ -44,16 +44,22 @@ const PostTab = ({ classroom }) => {
         <Card className="mt-2" key={post._id}>
           <Card.Body>
             <Card.Title>
-              <h5 className="d-inline me-3">{post.title}</h5>
-              {user._id === post.author._id && (
-                <Button
-                  size="sm"
-                  variant="warning"
-                  onClick={() => deletePost(classroom._id, post._id)}
-                >
-                  <AiFillDelete />
-                </Button>
-              )}
+              <Row>
+                <Col>
+                  <h5 className="d-inline me-3">{post.title}</h5>
+                </Col>
+                {user._id === post.author._id && (
+                  <Col className="text-end">
+                    <Button
+                      size="sm"
+                      variant="warning"
+                      onClick={() => deletePost(classroom._id, post._id)}
+                    >
+                      <AiFillDelete />
+                    </Button>
+                  </Col>
+                )}
+              </Row>
             </Card.Title>
             <Card.Text>{post.content}</Card.Text>
             <Card.Text>{post.content}</Card.Text>

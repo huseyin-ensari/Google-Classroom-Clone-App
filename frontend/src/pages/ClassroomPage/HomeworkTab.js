@@ -2,13 +2,21 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../contexts/authContext";
 import CreateHomework from "./CreateHomework";
 import { Card, Row, Col, Button } from "react-bootstrap";
-import { AiOutlineEnter } from "react-icons/ai";
+import { AiOutlineEnter, AiFillDelete } from "react-icons/ai";
 import moment from "moment";
 import SubmitHomeworkOffCanvas from "../../components/MyOffCanvas/SubmitHomeworkOffCanvas";
 import { LinkContainer } from "react-router-bootstrap";
+import { fetchDeleteHomework } from "../../api/homeworkApi";
+import { fetchClassroomDetail } from "../../api/classroomApi";
 
 const HomeworkTab = ({ homeworks }) => {
-  const { user } = useContext(AuthContext);
+  const { user, classroom, setClassroom } = useContext(AuthContext);
+
+  const deleteHomework = async (homeworkID) => {
+    await fetchDeleteHomework(classroom._id, homeworkID);
+    const { data } = await fetchClassroomDetail(classroom._id);
+    setClassroom({ ...data.data });
+  };
 
   return (
     <>
@@ -22,7 +30,22 @@ const HomeworkTab = ({ homeworks }) => {
               <Card className="mt-2" key={homework._id}>
                 <Card.Body>
                   <Card.Title>
-                    <h5 className="d-inline me-3">{homework.title}</h5>
+                    <Row className="">
+                      <Col>
+                        <h5 className="d-inline me-3">{homework.title}</h5>
+                      </Col>
+                      {user.role === "teacher" && (
+                        <Col className="text-end">
+                          <Button
+                            size="sm"
+                            variant="warning"
+                            onClick={() => deleteHomework(homework._id)}
+                          >
+                            <AiFillDelete />
+                          </Button>
+                        </Col>
+                      )}
+                    </Row>
                   </Card.Title>
                   <Card.Text>{homework.content}</Card.Text>
                 </Card.Body>

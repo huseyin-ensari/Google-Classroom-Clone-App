@@ -1,4 +1,3 @@
-import React from "react";
 import {
   giveNote,
   lectureNotes,
@@ -6,7 +5,7 @@ import {
   downloadExcel,
 } from "./assets";
 import MyCard from "./Card";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 
 const CardsSection = () => {
   return (
