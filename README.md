@@ -10,7 +10,8 @@ To summarize the project;
 Teachers; can open classes, publish course resources and assign assignments.
 Students can join the class. They can add their homework as a project.
 Teachers will evaluate these projects and give grades to these projects. They will also be able to download it as an excel file.
-Click if you want to try the project online.
+
+[Click if you want to try the project online.](https://google-classroom-app.netlify.app/)
 
 ---
 
@@ -45,7 +46,7 @@ Create .env files into the backend and frontend folders.
 
 backend/.env
 
-```
+```bash
 MONGO_DB_URL= <your_mongo_db_url>
 CLIENT_URL= <client_url>
 
@@ -59,6 +60,6 @@ REFRESH_TOKEN_EXPIRE= < expiration_time >
 
 frontend/.env
 
-```
+```bash
 REACT_APP_BASE_URL= < backend_url >
 ```
