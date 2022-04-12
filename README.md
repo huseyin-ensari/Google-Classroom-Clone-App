@@ -64,8 +64,8 @@ frontend/.env
 REACT_APP_BASE_URL= < backend_url >
 ```
 
-| Tablet                                                                                                                   | Mobile                                                                                                                  |
-| ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| ![tablet form](https://raw.githubusercontent.com/huseyin-ensari/images-for-readme/main/classroom-app/tablet-general.gif) | ![mobile form](https://raw.githubusercontent.com/huseyin-ensari/images-for-readme/main/classroom-app/mobil-general.gif) |
+| Tablet                                         | Mobile                                        |
+| ---------------------------------------------- | --------------------------------------------- |
+| ![tablet form](./forReadme/tablet-general.gif) | ![mobile form](./forReadme/mobil-general.gif) |
 
-![](https://github.com/huseyin-ensari/images-for-readme/blob/main/classroom-app/New%20video.gif?raw=true)
+![introduction](./forReadme/New%20video.gif)
